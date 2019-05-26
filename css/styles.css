@@ -13,12 +13,42 @@ h1{
     flex-wrap: wrap;
     justify-items: center;
 }
-.box1,.box2{
+.box1, .box2{
     padding: 2rem;
     text-align: center;
+    margin: auto;
+    
 }
 .fa-space-shuttle{
     transform: rotate(-90deg);
     font-size: 5rem;
     padding: 2rem;
+}
+.rockInfoStyle{
+    padding: 1rem;
+    background: #008053;
+    color:#fff;
+    border: none;
+    width: 190px;
+}
+#datos1, #datos2{
+    display: none;
+    margin: 1rem;
+    padding:1rem;
+    border: 1px solid #000;
+}
+.velocity{
+    padding: .5rem;
+    margin: .5rem;
+    background: #008053;
+    color:#fff;
+    border: none;
+}
+.velocimeter{
+    font-family: 'Cute Font', cursive;
+    font-size: 2rem;
+    border: 2px solid #000;
+    padding:  1rem;
+    margin: 1rem;
+    width: 80px;
 }
