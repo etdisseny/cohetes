@@ -6,11 +6,27 @@ document.addEventListener("DOMContentLoaded", function (event) {
     var datos2 = document.querySelector('#datos2');
     var button1 = document.querySelector('#rockInfo1');
     var button2 = document.querySelector('#rockInfo2');
-    function createRocket(code, thrusters, power, datos) {
+    var inputVel = document.querySelector('#veloTotal');
+    var acelerateButton = document.querySelector('#acelerate');
+    var delerateButton = document.querySelector('#decelerate');
+    var acelerateButton2 = document.querySelector('#acelerate2');
+    var delerateButton2 = document.querySelector('#decelerate2');
+    var velMax1;
+    var velMax2;
+    var initVel = 0;
+    function createRocket1(code, thrusters, power, datos) {
         rockets = new Rockets(code, thrusters, power);
+        velMax1 = rockets.powerTotal();
         paintRockets(rockets.code, rockets.thrusters, datos);
         paintPower(rockets.power, datos);
-        paintVel(datos);
+        paintVel(datos, velMax1);
+    }
+    function createRocket2(code, thrusters, power, datos) {
+        rockets = new Rockets(code, thrusters, power);
+        velMax2 = rockets.powerTotal();
+        paintRockets(rockets.code, rockets.thrusters, datos);
+        paintPower(rockets.power, datos);
+        paintVel(datos, velMax2);
     }
     //pinto codigo y numero de propulsores
     function paintRockets(code, thrusters, boxData) {
@@ -33,15 +49,17 @@ document.addEventListener("DOMContentLoaded", function (event) {
         boxData.append(powerText);
     }
     //Pinto velocidad m
-    function paintVel(boxData) {
+    function paintVel(boxData, vel) {
         var pVel = document.createElement('p');
         var textVel = document.createTextNode("Velocidad máxima: ");
         pVel.append(textVel);
         boxData.append(pVel);
-        boxData.append(rockets.powerTotal());
+        boxData.append(vel);
     }
-    createRocket('32WESSDS', 3, [10, 20, 30], datos1);
-    createRocket('LDSFJA32', 6, [30, 40, 50, 50, 30, 10], datos2);
+    createRocket1('32WESSDS', 3, [10, 20, 30], datos1);
+    console.log(velMax1);
+    createRocket2('LDSFJA32', 6, [30, 40, 50, 50, 30, 10], datos2);
+    console.log(velMax2);
     //funciones para mostrar u ocultar la información
     button1.addEventListener('click', function () {
         mostrarOcultar(datos1, this);
@@ -57,6 +75,39 @@ document.addEventListener("DOMContentLoaded", function (event) {
         else {
             box.style.display = "none";
             button.innerHTML = "PRINT ROCKET INFO";
+        }
+    }
+    acelerateButton.addEventListener('click', function () {
+        aceleration(velMax1);
+    });
+    delerateButton.addEventListener('click', function () {
+        deceleration();
+    });
+    acelerateButton2.addEventListener('click', function () {
+        aceleration(velMax2);
+    });
+    delerateButton2.addEventListener('click', function () {
+        deceleration();
+    });
+    function aceleration(vel) {
+        if (initVel < vel) {
+            initVel = initVel + 10;
+            inputVel.innerHTML = initVel;
+            if (initVel > 40) {
+                inputVel.style.color = "red";
+            }
+        }
+    }
+    function deceleration() {
+        if (initVel > 0) {
+            initVel = initVel - 10;
+            inputVel.innerHTML = initVel;
+            if (initVel > 40) {
+                inputVel.style.color = "red";
+            }
+            else {
+                inputVel.style.color = "black";
+            }
         }
     }
 }); //load
