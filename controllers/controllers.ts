@@ -12,6 +12,7 @@ var button2=<HTMLObjectElement>document.querySelector('#rockInfo2');
 
 
 var inputVel=<HTMLObjectElement>document.querySelector('#veloTotal');
+var inputVel2=<HTMLObjectElement>document.querySelector('#veloTotal2');
 var acelerateButton=<HTMLObjectElement>document.querySelector('#acelerate');
 var delerateButton=<HTMLObjectElement>document.querySelector('#decelerate');
 var acelerateButton2=<HTMLObjectElement>document.querySelector('#acelerate2');
@@ -20,6 +21,8 @@ var delerateButton2=<HTMLObjectElement>document.querySelector('#decelerate2');
 var velMax1:any;
 var velMax2:any;
 var initVel:any= 0;
+var initVel2:any= 0;
+
    
 
 function createRocket1(code:string, thrusters: number, power:number[],datos:any){
@@ -95,42 +98,62 @@ function mostrarOcultar(box:any, button:any){
     }
 } 
 acelerateButton.addEventListener('click', function(){ 
-    aceleration(velMax1);
+    aceleration1(velMax1, inputVel);
 }); 
 
 delerateButton.addEventListener('click', function(){
-    deceleration();
+    deceleration1(inputVel);
 });
 acelerateButton2.addEventListener('click', function(){ 
-    aceleration(velMax2);
+    aceleration2(velMax2,inputVel2);
 }); 
 
 delerateButton2.addEventListener('click', function(){
-    deceleration();
+    deceleration2(inputVel2);
 });
 
 
 
-function aceleration(vel:any){
+function aceleration1(vel:any,input:any){
         if(initVel<vel){
             initVel= initVel + 10;
-            inputVel.innerHTML= initVel;
+            input.innerHTML= initVel;
             if(initVel>40){
-                inputVel.style.color="red";
+                input.style.color="red";
             }
         }  
 }
+function aceleration2(vel:any,input:any){
+    if(initVel2<vel){
+        initVel2= initVel2 + 10;
+        input.innerHTML= initVel2;
+        if(initVel2>180){
+            input.style.color="red";
+        }
+    }  
+}
 
-function deceleration(){
+function deceleration1(input:any){
         if(initVel>0){ 
             initVel= initVel - 10;
-            inputVel.innerHTML= initVel;
+            input.innerHTML= initVel;
             if(initVel>40){
-                inputVel.style.color="red";
+                input.style.color="red";
             }else{
-                inputVel.style.color="black";
+                input.style.color="black";
             }
         } 
+}
+function deceleration2(input:any){
+    if(initVel2>0){ 
+        initVel2= initVel2 - 10;
+        input.innerHTML= initVel2;
+        if(initVel2>180){
+            input.style.color="red";
+        }else{
+           input.style.color="black";
+        }
+    } 
 }
 
 
