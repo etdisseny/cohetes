@@ -1,14 +1,19 @@
-document.addEventListener("DOMContentLoaded", function(event) {
+
+
+
+
 
 
 //me creo la variable global
+
 var rockets: Rockets;
 
 var datos1= <HTMLElement>document.querySelector('#datos1');
 var datos2= <HTMLElement>document.querySelector('#datos2');
 
-var button1=<HTMLObjectElement>document.querySelector('#rockInfo1');
-var button2=<HTMLObjectElement>document.querySelector('#rockInfo2');
+
+var button1=<HTMLButtonElement>document.querySelector('#rockInfo1');
+var button2=<HTMLButtonElement>document.querySelector('#rockInfo2'); 
 
 
 var inputVel=<HTMLObjectElement>document.querySelector('#veloTotal');
@@ -18,12 +23,11 @@ var delerateButton=<HTMLObjectElement>document.querySelector('#decelerate');
 var acelerateButton2=<HTMLObjectElement>document.querySelector('#acelerate2');
 var delerateButton2=<HTMLObjectElement>document.querySelector('#decelerate2');
 
-var velMax1:any;
-var velMax2:any;
-var initVel:any= 0;
-var initVel2:any= 0;
+var velMax1:number;
+var velMax2:number;
+var initVel:number= 0;
+var initVel2:number= 0;
 
-   
 
 function createRocket1(code:string, thrusters: number, power:number[],datos:any){
     rockets= new Rockets(code,thrusters,power);
@@ -74,92 +78,75 @@ function paintVel(boxData:any,vel:any){
 }
 
 createRocket1('32WESSDS', 3, [10,20,30], datos1); 
-console.log(velMax1);
+
 createRocket2('LDSFJA32', 6 , [30,40,50,50,30,10], datos2);
-console.log(velMax2);
+
 
 //funciones para mostrar u ocultar la información
 
-  button1.addEventListener('click', function(){
-    mostrarOcultar(datos1, this);
-    });
-  button2.addEventListener('click', function(){
-        mostrarOcultar(datos2, this);
-    });  
+
+function mostrarOcultar(box:string){
+   
+    let boxes= <HTMLElement>document.getElementById(box);
+    let display_box = window.getComputedStyle(boxes).display;
+      
+    let boton=<HTMLButtonElement>document.getElementById('button_'+ box);
+     
+     if(display_box=="none"){
+         boxes.style.display="block";
+         boton.innerHTML="HIDE ROCKET INFO";
+     }else{
+         boxes.style.display="none";
+         boton.innerHTML="PRINT ROCKET INFO";   
+     }  
+ }
 
 
-function mostrarOcultar(box:any, button:any){
-    if(box.style.display=="none"){
-        box.style.display="block";
-        button.innerHTML="HIDE ROCKET INFO";
-    }else{
-        box.style.display="none";
-        button.innerHTML="PRINT ROCKET INFO";   
-    }
-} 
 acelerateButton.addEventListener('click', function(){ 
-    aceleration1(velMax1, inputVel);
+    initVel=aceleration(initVel,velMax1, inputVel);
 }); 
 
 delerateButton.addEventListener('click', function(){
-    deceleration1(inputVel);
+    initVel=deceleration(initVel,velMax1,inputVel);
 });
 acelerateButton2.addEventListener('click', function(){ 
-    aceleration2(velMax2,inputVel2);
+    initVel2=aceleration(initVel2,velMax2,inputVel2);
 }); 
 
 delerateButton2.addEventListener('click', function(){
-    deceleration2(inputVel2);
+    initVel2=deceleration(initVel2,velMax2,inputVel2);
 });
 
 
 
-function aceleration1(vel:any,input:any){
-        if(initVel<vel){
-            initVel= initVel + 10;
-            input.innerHTML= initVel;
-            if(initVel>40){
+function aceleration(init:number,vel:number,input:any){
+    let velCritic=vel-30;
+        if(init<vel){
+            init= init + 10;
+            input.innerHTML= init;
+            if(init>velCritic){
                 input.style.color="red";
+                input.style.border="2px solid red";
             }
         }  
-}
-function aceleration2(vel:any,input:any){
-    if(initVel2<vel){
-        initVel2= initVel2 + 10;
-        input.innerHTML= initVel2;
-        if(initVel2>180){
-            input.style.color="red";
-        }
-    }  
+        return init;
 }
 
-function deceleration1(input:any){
-        if(initVel>0){ 
-            initVel= initVel - 10;
-            input.innerHTML= initVel;
-            if(initVel>40){
+
+function deceleration(init:number,vel:number,input:any){
+    let velCritic=vel-30;
+        if(init>0){ 
+            init= init - 10;
+            input.innerHTML= init;
+            if(init>velCritic){
                 input.style.color="red";
+                input.style.border="2px solid red";
             }else{
                 input.style.color="black";
+                input.style.border="2px solid black";
             }
         } 
-}
-function deceleration2(input:any){
-    if(initVel2>0){ 
-        initVel2= initVel2 - 10;
-        input.innerHTML= initVel2;
-        if(initVel2>180){
-            input.style.color="red";
-        }else{
-           input.style.color="black";
-        }
-    } 
+        return init;
 }
 
 
-
-
-
-
-
-});//load
